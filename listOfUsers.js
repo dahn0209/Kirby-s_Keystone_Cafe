@@ -1,5 +1,5 @@
 // array of users
-const user = [
+const users = [
   {
     firstName: 'Glenn',
     lastName: 'Rhee',
@@ -31,6 +31,7 @@ const user = [
   {
     firstName: 'Tyler',
     lastName: 'Ribbon',
+    email: 'tribbon@gmail.com',
     password: 'whoareyou',
     address: '1478 Midway Road, Menasha, WI 54952'
   },
@@ -38,7 +39,7 @@ const user = [
     firstName: 'Hugo',
     lastName: 'First',
     email: 'hfirst@gmail.com',
-    password: '',
+    password: 'somepassword',
     address: '1504 Springhill Avenue, Mobile, AL 36604'
   }
 ]
