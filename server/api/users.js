@@ -10,6 +10,7 @@ router.get('/', async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'email']
     })
+    console.log(req.session)
     res.json(users)
   } catch (err) {
     next(err)
