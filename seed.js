@@ -1,4 +1,5 @@
 const {db, Product, User, Cart, OrderDetail} = require('./server/db/models')
+const users = require('./listOfUsers')
 
 const seed = async () => {
   try {
