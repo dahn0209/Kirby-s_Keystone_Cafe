@@ -1,14 +1,9 @@
 import React from 'react'
-import {fetchProducts} from '..store/products'
+import {fetchProducts} from '../store/products'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 export class AllProducts extends React.Component {
-  constructor() {
-    super()
-
-    this.handleAllProducts = this.handleAllProducts.bind(this)
-  }
   componentDidMount() {
     this.props.getProducts()
   }
@@ -28,7 +23,8 @@ export class AllProducts extends React.Component {
                   <img src={product.imageUrl} />
                 </Link>
                 <p>{product.description}</p>
-                <h3>{product.rating}</h3>
+                <h3>Price:{product.price}</h3>
+                <h3>Rating:{product.rating}</h3>
               </div>
             </div>
           )
