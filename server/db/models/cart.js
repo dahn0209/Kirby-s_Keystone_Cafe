@@ -9,6 +9,9 @@ const Cart = db.define('cart', {
   processed: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  sessionId: {
+    type: Sequelize.STRING
   }
 })
 
