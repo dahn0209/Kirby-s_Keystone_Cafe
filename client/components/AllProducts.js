@@ -1,13 +1,8 @@
 import React from 'react'
-//import { fetchCampuses, removeSingleCampus } from '../redux/campuses';
 import {fetchProducts} from '..store/products'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-//import AddCampus from './AddCampus';
 
-// Notice that we're exporting the AllCampuses component twice. The named export
-// (below) is not connected to Redux, while the default export (at the very
-// bottom) is connected to Redux. Our tests should cover _both_ cases.
 export class AllProducts extends React.Component {
   constructor() {
     super()
@@ -27,23 +22,6 @@ export class AllProducts extends React.Component {
         {products.map(product => {
           return (
             <div className="all-product-list" key={product.id}>
-              <div>
-                <form
-                  onSubmit={event => {
-                    event.preventDefault()
-                  }}
-                >
-                  {' '}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      this.props.getProducts()
-                    }}
-                  >
-                    X
-                  </button>
-                </form>
-              </div>
               <div>
                 <Link to={`/products/${product.id}`}>
                   <h2>{product.name}</h2>
@@ -72,9 +50,6 @@ const mapDispatch = dispatch => {
     getProducts: () => {
       return dispatch(fetchProducts())
     }
-    // removeSingleCampus: (campus) => {
-    //   return dispatch(removeSingleCampus(campus));
-    // },
   }
 }
 
