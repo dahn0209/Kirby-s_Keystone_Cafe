@@ -7,7 +7,7 @@ const {User, Product} = require('../db/models')
 router.get('/users', async (req, res, next) => {
   try {
     const users = await User.findAll()
-    res.status(204).json(users)
+    res.status(200).json(users)
   } catch (error) {
     next(error)
   }
@@ -32,6 +32,16 @@ router.get('/users/:id', async (req, res, next) => {
 })
 
 // --------- routes for: api/admin/products -----------
+
+// /api/admin/products
+router.get('/products', async (req, res, next) => {
+  try {
+    const products = await Product.findAll()
+    res.json(products)
+  } catch (error) {
+    next(error)
+  }
+})
 
 // /api/admin/products
 router.post('/products', async (req, res, next) => {
