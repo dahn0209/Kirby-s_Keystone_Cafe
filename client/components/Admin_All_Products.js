@@ -1,9 +1,11 @@
 import React from 'react'
-import {fetchProducts} from '../store/products'
+import {fetchProducts} from '../store/admin_store/admin_products'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 
-export class AllProducts extends React.Component {
+export class Admin_All_Products extends React.Component {
+  constructor() {
+    super()
+  }
   componentDidMount() {
     this.props.getProducts()
   }
@@ -14,6 +16,7 @@ export class AllProducts extends React.Component {
       <div>
         <h1>All Products</h1>
         <h2>List of Product:</h2>
+        <button>Add Product</button>
         {products.map(product => {
           return (
             <div className="all-product-list" key={product.id}>
@@ -23,8 +26,11 @@ export class AllProducts extends React.Component {
                   <img src={product.imageUrl} />
                 </Link>
                 <p>{product.description}</p>
-                <h3>Price:{product.price}</h3>
-                <h3>Rating:{product.rating}</h3>
+                <h3>{product.rating}</h3>
+                <div>
+                  <button>Edit</button>
+                  <button>Remove</button>
+                </div>
               </div>
             </div>
           )
@@ -35,13 +41,13 @@ export class AllProducts extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapStateToProps = state => {
   return {
     products: state.products
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDipatchToProps = dispatch => {
   return {
     getProducts: () => {
       return dispatch(fetchProducts())
@@ -49,4 +55,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(AllProducts)
+export default connect(mapStateToProps, mapDipatchToProps)(Admin_All_Products)

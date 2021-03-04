@@ -4,7 +4,7 @@ const initialState = []
 
 const SET_USERS = 'SET_USERS'
 
-// action creator
+// action creator for SET_USERS
 export const setUsers = users => {
   return {
     type: SET_USERS,
