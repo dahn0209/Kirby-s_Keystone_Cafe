@@ -2,7 +2,7 @@ const {db, Product, User, Cart, OrderDetail} = require('../server/db/models')
 const users = require('../listOfUsers')
 const products = require('../listOfProducts')
 const carts = require('../listOfCarts')
-// const orderDetails = require('../listOfOrderDetails')
+const orderDetails = require('../listOfOrderDetails')
 
 const seed = async () => {
   try {
@@ -26,11 +26,11 @@ const seed = async () => {
       })
     )
 
-    // await Promise.all(
-    //   orderDetails.map((orderDetail) => {
-    //     return OrderDetail.create(orderDetail)
-    //   })
-    // )
+    await Promise.all(
+      orderDetails.map(orderDetail => {
+        return OrderDetail.create(orderDetail)
+      })
+    )
 
     console.log('seeding done!')
     // seed your database here!
