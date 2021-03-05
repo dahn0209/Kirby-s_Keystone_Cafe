@@ -25,7 +25,6 @@ const seed = async () => {
         return Cart.create(cart)
       })
     )
-
     // await Promise.all(
     //   orderDetails.map((orderDetail) => {
     //     return OrderDetail.create(orderDetail)

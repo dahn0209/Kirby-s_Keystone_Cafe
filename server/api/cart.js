@@ -60,7 +60,6 @@ router.put('/addItem/:productId', async (req, res, next) => {
 
     await orderDetails.update({
       where: {productId: productId, cartId: userCart.id},
-      price: product.price,
       productId: product.id,
       quantity: orderDetails.quantity + 1,
       totalPrice: product.price * (orderDetails.quantity + 1)
@@ -99,7 +98,6 @@ router.put('/removeItem/:productId', async (req, res, next) => {
 
     await orderDetails.update({
       where: {productId: productId, cartId: userCart.id},
-      price: product.price,
       productId: product.id,
       quantity: orderDetails.quantity - 1,
       totalPrice: product.price * (orderDetails.quantity - 1)
