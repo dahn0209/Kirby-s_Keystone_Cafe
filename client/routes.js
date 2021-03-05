@@ -33,8 +33,6 @@ class Routes extends Component {
           <Route component={Login} />
         </Switch>
         <Route exact path="/" component={AllProducts} />
-        {/* I'm not sure where to do the the exact path */}
-        {/* <Route exact path="/products" component={AllProducts} /> */}
         <Route exact path="/products/:productId" component={SingleProduct} />
       </div>
     )
