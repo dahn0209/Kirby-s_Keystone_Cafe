@@ -1,10 +1,33 @@
 const router = require('express').Router()
 const {User, Product} = require('../db/models')
 
+async function checkAdmin(req, res, next) {
+  // checks if someone is logged in
+  if (req.session.passport) {
+    // this userId is only accessible if someone is logged in
+    const userId = req.session.passport.user
+    const {isAdmin} = await User.findByPk(userId)
+    if (isAdmin) {
+      //if logged-in user IS an admin
+      next()
+    } else {
+      // if logged-in user is NOT an admin
+      res.status(403).json({
+        message: 'Access Denied'
+      })
+    }
+  } else {
+    // this block runs when nobody is logged in
+    res.status(403).json({
+      message: 'Access Denied'
+    })
+  }
+}
+
 // --------- routes for: api/admin/user -----------
 
 // api/admin/users
-router.get('/users', async (req, res, next) => {
+router.get('/users', checkAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll()
     res.status(200).json(users)
@@ -14,7 +37,7 @@ router.get('/users', async (req, res, next) => {
 })
 
 // /api/admin/users/id
-router.get('/users/:id', async (req, res, next) => {
+router.get('/users/:id', checkAdmin, async (req, res, next) => {
   try {
     const userId = req.params.id
     const user = await User.findByPk(userId)
@@ -44,7 +67,7 @@ router.get('/products', async (req, res, next) => {
 })
 
 // /api/admin/products
-router.post('/products', async (req, res, next) => {
+router.post('/products', checkAdmin, async (req, res, next) => {
   try {
     const product = await Product.create(req.body)
     res.send(product)
@@ -54,7 +77,7 @@ router.post('/products', async (req, res, next) => {
 })
 
 // /api/admin/products/:id
-router.put('/products/:id', async (req, res, next) => {
+router.put('/products/:id', checkAdmin, async (req, res, next) => {
   try {
     const productId = req.params.id
     const product = await Product.findByPk(productId)
@@ -66,7 +89,7 @@ router.put('/products/:id', async (req, res, next) => {
 })
 
 // /api/admin/products/:id
-router.delete('/products/:id', async (req, res, next) => {
+router.delete('/products/:id', checkAdmin, async (req, res, next) => {
   try {
     const productId = req.params.id
     const product = await Product.findByPk(productId)
