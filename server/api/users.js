@@ -15,3 +15,14 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+////This will have to be dealt with in the signup page/////
+////http://localhost:8080/signup//////////
+
+router.post('/:id', async (req, res, next) => {
+  try {
+    const createUser = await User.create()
+  } catch (err) {
+    next(err)
+  }
+})

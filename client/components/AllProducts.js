@@ -24,7 +24,6 @@ export class AllProducts extends React.Component {
                 </Link>
                 <p>{product.description}</p>
                 <h3>Price:{product.price}</h3>
-                <h3>Rating:{product.rating}</h3>
               </div>
             </div>
           )

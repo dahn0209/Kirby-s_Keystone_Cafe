@@ -26,7 +26,6 @@ export class Admin_All_Products extends React.Component {
                   <img src={product.imageUrl} />
                 </Link>
                 <p>{product.description}</p>
-                <h3>{product.rating}</h3>
                 <div>
                   <button>Edit</button>
                   <button>Remove</button>
