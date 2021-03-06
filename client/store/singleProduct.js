@@ -14,10 +14,8 @@ export const setSingleProduct = product => {
 export const fetchSingleProduct = id => {
   return async dispatch => {
     try {
-      console.log('FSP before')
       const {data} = await axios.get(`/api/products/${id}`)
-      console.log('FSP after')
-      console.log(data)
+
       dispatch(setSingleProduct(data))
     } catch (err) {
       throw err

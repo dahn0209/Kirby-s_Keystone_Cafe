@@ -24,3 +24,25 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.main-cart-wrapper {
+  display: flex;
+  width: 90vw;
+}
+
+#cart-left-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 70vw;
+}
+
+#cart-right-panel {
+  border: solid 1px red;
+  max-width: 30vw;
+}
+
+.itemInCart {
+  border: solid 1px black;
+  margin: 10px;
+}
