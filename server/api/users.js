@@ -50,7 +50,7 @@ router.get('/:id', checkUser, async (req, res, next) => {
 
     //if user doesn't exist
     if (!user) {
-      console.log('user not found in GET /api/user/id')
+      console.log('user not found in GET /api/users/id')
       res.status(404).send('This user does not exist in our database')
     } else {
       res.status(200).json(user)
