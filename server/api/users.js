@@ -60,7 +60,7 @@ router.get('/:id', checkUser, async (req, res, next) => {
   }
 })
 
-router.post('/:id', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     const createUser = await User.create({
       firstName: req.body.firstName,
