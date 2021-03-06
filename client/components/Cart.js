@@ -18,10 +18,10 @@ class Cart extends React.Component {
     const isGuest = !user.id
 
     if (!isGuest) {
-      console.log('fetching user cart')
-      // fetch cart from db
+      // if the user is logged in, fetch their cart from db
       fetchUserCart(user.id)
     } else {
+      // if they are a guest, fetch their catch from local storage
       fetchUserCart(JSON.parse(window.localStorage.getItem('cart')))
     }
   }
@@ -30,22 +30,22 @@ class Cart extends React.Component {
     const {fetchUserCart, user} = this.props
 
     if (user.id) {
-      // if the user is logged in, perform the corresponding action and fetch their updated cart
+      // if the user is logged in, perform the corresponding 'clicked' action and fetch their updated cart
       clickedActionFunc(productId)
       fetchUserCart(user.id)
     } else {
-      // if the user is not logged in, grab the cart from local storage and update the values within the cart and update the state in redux
+      // if the user is not logged in, grab the cart from local storage, update the values within the cart.. then, update the state in redux.
       let cart = JSON.parse(window.localStorage.getItem('cart'))
       cart = cart
         .map(item => {
           if (productId === item.id) {
             if (clickedActionFunc.name === 'increment') {
               item.quantity += 1
-              item.price += parseInt(item.price, 10)
+              item.totalPrice += item.price
             }
             if (clickedActionFunc.name === 'decrement') {
               item.quantity -= 1
-              item.price += item.price
+              item.totalPrice -= item.price
             }
             if (clickedActionFunc.name === 'clearFromCart') {
               item.quantity = 0
@@ -81,7 +81,9 @@ class Cart extends React.Component {
               </div>
               <div>
                 price:{' '}
-                {isGuest ? product.price : product.orderDetail.totalPrice}
+                {isGuest
+                  ? product.totalPrice.toFixed(2)
+                  : product.orderDetail.totalPrice}
               </div>
               <button
                 type="button"
