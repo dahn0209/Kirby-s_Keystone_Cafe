@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleProduct} from './components'
 import {me} from './store'
 import AllProducts from './components/AllProducts'
+import Admin_All_Products from './components/Admin_All_Products'
 
 /**
  * COMPONENT
@@ -16,6 +17,7 @@ class Routes extends Component {
 
   render() {
     const {isLoggedIn} = this.props
+    console.log('PROPS ', this.props)
 
     return (
       <div>
@@ -34,6 +36,7 @@ class Routes extends Component {
         </Switch>
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
+        <Route exact path="/admin/products" component={Admin_All_Products} />
       </div>
     )
   }

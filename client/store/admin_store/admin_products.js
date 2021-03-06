@@ -1,10 +1,12 @@
+import axios from 'axios'
+
 const SET_PRODUCTS = 'SET_PRODUCTS'
 const CREATE_PRODUCT = 'CREATE_PRODUCT'
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 //action creator for SET_PRODUCTS
-export const setProducts = products => {
+export const adminSetProducts = products => {
   return {
     type: SET_PRODUCTS,
     products
@@ -12,11 +14,11 @@ export const setProducts = products => {
 }
 
 // thunk for SET_PRODUCTS
-export const fetchProducts = () => {
+export const adminFetchProducts = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/admin/products')
-      dispatch(setProducts(data))
+      dispatch(adminSetProducts(data))
     } catch (error) {
       console.log(error)
     }
@@ -91,7 +93,7 @@ export const updateProductThunk = product => {
 const initialState = []
 
 //reducer
-export default function productsReducer(state = initialState, action) {
+export default function adminProductsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_PRODUCTS:
       return action.products

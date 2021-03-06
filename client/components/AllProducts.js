@@ -35,6 +35,7 @@ export class AllProducts extends React.Component {
 }
 
 const mapState = state => {
+  console.log('STATESTATE', state)
   return {
     products: state.products
   }
