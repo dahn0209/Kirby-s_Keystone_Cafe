@@ -45,10 +45,13 @@ class Cart extends React.Component {
             if (clickedActionFunc.name === 'increment') {
               item.quantity += 1
               item.totalPrice += item.price
+              item.totalPrice = parseFloat(item.totalPrice.toFixed(2))
             }
             if (clickedActionFunc.name === 'decrement') {
               item.quantity -= 1
               item.totalPrice -= item.price
+              item.totalPrice = parseFloat(item.totalPrice.toFixed(2))
+              console.log(typeof item.totalPrice)
             }
             if (clickedActionFunc.name === 'clearFromCart') {
               item.quantity = 0
