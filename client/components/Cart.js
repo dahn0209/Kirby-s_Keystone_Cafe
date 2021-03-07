@@ -17,21 +17,18 @@ class Cart extends React.Component {
   componentDidMount() {
     const {user, fetchUserCart, combineGuestCart} = this.props
     const isGuest = !user.id
+
     if (!isGuest) {
-      // if the user is logged in, fetch their cart from db
-
-      // check if local cart exist,
+      // if the user is logged in, first check if a guest cart exists
       const preExistingCart = JSON.parse(window.localStorage.getItem('cart'))
-
+      // if it does, send the cart to the database to be merged with the user's cart
       if (preExistingCart && preExistingCart.length) {
         combineGuestCart(preExistingCart)
       }
-      // if a guest cart exist, send the cart to the database to be created as part of the user's cart
-
+      // display the cart
       fetchUserCart(user.id)
     } else {
-      // if they are a guest, fetch their catch from local storage. If no cart exists, send a blank cart (as a array)
-
+      // if they're a guest, fetch their catch from local storage
       fetchUserCart(JSON.parse(window.localStorage.getItem('cart')) || [])
     }
   }

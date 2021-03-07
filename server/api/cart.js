@@ -14,7 +14,8 @@ const formatPrice = itemArray => {
 router.get('/view', async (req, res, next) => {
   try {
     if (!req.session.passport) {
-      res.json('Not logged in but tried to hit the view cart route!')
+      // protect against against bad actors trying to view unauthorized carts
+      res.json("Not logged in but tried to view a user's cart!")
     } else {
       const userId = req.session.passport.user
 
@@ -164,21 +165,22 @@ router.put('/combinecart', async (req, res, next) => {
       where: {userId: userId, processed: false}
     })
 
-    const mappedCart = guestCart.map(item => {
-      return {
-        productId: item.id,
+    for (let i = 0; i < guestCart.length; i++) {
+      let item = guestCart[i]
+      const product = await Product.findByPk(item.id)
+      item = {
+        productId: product.id,
         quantity: item.quantity,
-        totalPrice: parseInt(item.totalPrice * 100, 10),
+        totalPrice: product.price * item.quantity,
         cartId: userCart.id
       }
-    })
-
-    for (let i = 0; i < mappedCart.length; i++) {
-      const item = mappedCart[i]
       const [order, orderWasCreated] = await OrderDetail.findOrCreate({
         where: {productId: item.productId, cartId: item.cartId}
       })
-      await order.update({quantity: item.quantity, totalPrice: item.totalPrice})
+      await order.update({
+        quantity: item.quantity,
+        totalPrice: item.totalPrice
+      })
     }
 
     const updatedCart = await Cart.findOne({
