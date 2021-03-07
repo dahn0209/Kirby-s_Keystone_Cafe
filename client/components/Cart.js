@@ -10,19 +10,19 @@ import {
 class Cart extends React.Component {
   constructor() {
     super()
-
     this.clickButton = this.clickButton.bind(this)
   }
+
   componentDidMount() {
     const {user, fetchUserCart} = this.props
     const isGuest = !user.id
-
+    console.log('CDM')
     if (!isGuest) {
       // if the user is logged in, fetch their cart from db
       fetchUserCart(user.id)
     } else {
-      // if they are a guest, fetch their catch from local storage
-      fetchUserCart(JSON.parse(window.localStorage.getItem('cart')))
+      // if they are a guest, fetch their catch from local storage. If no cart exists, send a blank cart (as a array)
+      fetchUserCart(JSON.parse(window.localStorage.getItem('cart')) || [])
     }
   }
 
@@ -31,8 +31,11 @@ class Cart extends React.Component {
 
     if (user.id) {
       // if the user is logged in, perform the corresponding 'clicked' action and fetch their updated cart
+
+      console.log('Clicked', clickedActionFunc.name)
       clickedActionFunc(productId)
-      fetchUserCart(user.id)
+      console.log('able to fetchUserCart again')
+      // fetchUserCart(user.id)
     } else {
       // if the user is not logged in, grab the cart from local storage, update the values within the cart.. then, update the state in redux.
       let cart = JSON.parse(window.localStorage.getItem('cart'))
@@ -55,54 +58,49 @@ class Cart extends React.Component {
         })
         .filter(item => item.quantity > 0)
       window.localStorage.setItem('cart', JSON.stringify(cart))
+      console.log('im going to dispatch the local cart')
       fetchUserCart(cart)
     }
   }
 
   render() {
-    const {increment, decrement, clearFromCart, user, cart} = this.props
-
-    const isGuest = !user.id
-
-    console.log('isGuest: ', isGuest)
-    console.log('user: ', user)
-    console.log('get the cart: ', cart)
-
+    const {increment, decrement, clearFromCart, cart} = this.props
+    console.log('render')
     return (
       <div className="main-cart-wrapper">
         <div id="cart-left-panel">
           {cart.map(product => (
-            <div key={product.id} className="itemInCart">
-              <div>{product.name}</div>
+            <div key={product.id} className="item-in-cart">
+              <b>{product.name}</b>
               <img src={product.imageUrl} />
               <div>
-                quantity:{' '}
-                {isGuest ? product.quantity : product.orderDetail.quantity}
+                quantity: {product.quantity || product.orderDetail.quantity}
               </div>
+              <br />
+              <b>
+                price: {product.totalPrice || product.orderDetail.totalPrice}
+              </b>
               <div>
-                price:{' '}
-                {isGuest
-                  ? product.totalPrice.toFixed(2)
-                  : product.orderDetail.totalPrice}
+                <br />
+                <button
+                  type="button"
+                  onClick={() => this.clickButton(decrement, product.id)}
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  onClick={() => this.clickButton(increment, product.id)}
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  onClick={() => this.clickButton(clearFromCart, product.id)}
+                >
+                  Remove Item
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => this.clickButton(decrement, product.id)}
-              >
-                -
-              </button>
-              <button
-                type="button"
-                onClick={() => this.clickButton(increment, product.id)}
-              >
-                +
-              </button>
-              <button
-                type="button"
-                onClick={() => this.clickButton(clearFromCart, product.id)}
-              >
-                Remove Item
-              </button>
             </div>
           ))}
         </div>
@@ -116,7 +114,7 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps = state => {
-  // console.log('MS CART: ', state)
+  // console.log('MS)
   return {
     cart: state.cart,
     user: state.user
@@ -125,6 +123,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUserCart: userOrCart => {
+      console.log('fetchUserCartThunk')
       dispatch(fetchCart(userOrCart))
     },
     increment: productId => {

@@ -66,15 +66,17 @@ class SingleProduct extends React.Component {
     const {product} = this.props
 
     return product.name ? (
-      <div>
-        <h1>{product.name}</h1>
-        <img src={product.imageUrl} alt={product.name} />
-        <p>{product.description}</p>
-        <br />
-        <h4>{product.price}</h4>
-        <button type="button" onClick={this.handleAdd}>
-          Add to cart
-        </button>
+      <div className="all-product-list">
+        <div className="all-product-item">
+          <h1>{product.name}</h1>
+          <img src={product.imageUrl} alt={product.name} />
+          <p>{product.description}</p>
+          <br />
+          <h4>{product.price}</h4>
+          <button type="button" onClick={this.handleAdd}>
+            Add to cart
+          </button>
+        </div>
       </div>
     ) : (
       <div>Product Not Found!</div>

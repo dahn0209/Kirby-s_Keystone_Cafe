@@ -14,20 +14,25 @@ export class AllProducts extends React.Component {
       <div>
         <h1>All Products</h1>
         <h2>List of Product:</h2>
-        {products.map(product => {
-          return (
-            <div className="all-product-list" key={product.id}>
-              <div>
-                <Link to={`/products/${product.id}`}>
-                  <h2>{product.name}</h2>
-                  <img src={product.imageUrl} />
-                </Link>
-                <p>{product.description}</p>
-                <h3>Price:{product.price}</h3>
+        <div id="all-products-wrapper">
+          {products.map(product => {
+            return (
+              <div className="all-product-list" key={product.id}>
+                <div className="all-product-item">
+                  <Link
+                    className="product-name-image"
+                    to={`/products/${product.id}`}
+                  >
+                    <h2>{product.name}</h2>
+                    <img src={product.imageUrl} />
+                  </Link>
+                  <p>{product.description}</p>
+                  <h3>Price: {product.price}</h3>
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
         <div />
       </div>
     )

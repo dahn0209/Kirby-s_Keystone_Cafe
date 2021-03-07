@@ -2,6 +2,14 @@ const express = require('express')
 const router = express.Router()
 const {Product, Cart, OrderDetail} = require('../db/models/index')
 
+const formatPrice = itemArray => {
+  itemArray = itemArray.map(function(item) {
+    item.orderDetail.totalPrice = (item.orderDetail.totalPrice / 100).toFixed(2)
+    return item
+  })
+  return itemArray
+}
+
 // /api/cart/view
 router.get('/view', async (req, res, next) => {
   try {
@@ -10,20 +18,13 @@ router.get('/view', async (req, res, next) => {
     } else {
       const userId = req.session.passport.user
 
-      // if the person is a user
+      // // if the person is a user
       const [userCart, cartWasCreated] = await Cart.findOrCreate({
         where: {userId: userId, processed: false},
         include: [{model: Product}]
       })
 
-      let itemsInCart = userCart.products
-
-      itemsInCart = itemsInCart.map(function(item) {
-        item.orderDetail.totalPrice = (
-          item.orderDetail.totalPrice / 100
-        ).toFixed(2)
-        return item
-      })
+      let itemsInCart = formatPrice(userCart.products)
 
       res.json(itemsInCart)
     }
@@ -35,8 +36,7 @@ router.get('/view', async (req, res, next) => {
 // api/cart/addItem/:productId route
 router.put('/addItem/:productId', async (req, res, next) => {
   try {
-    // need to grab userId from req.session
-
+    // grab userId from req.session
     const userId = req.session.passport.user
 
     // grab productId from the req.params
@@ -61,7 +61,14 @@ router.put('/addItem/:productId', async (req, res, next) => {
       totalPrice: product.price * (orderDetails.quantity + 1)
     })
 
-    res.status(200).send('Successfully added to cart')
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
+
+    res.json(itemsInCart)
   } catch (err) {
     next(err)
   }
@@ -70,7 +77,7 @@ router.put('/addItem/:productId', async (req, res, next) => {
 // api/cart/removeItem/:productId route
 router.put('/removeItem/:productId', async (req, res, next) => {
   try {
-    // need to grab userId from req.session
+    // grab userId from req.session
     const userId = req.session.passport.user
 
     // grab productId from the req.params
@@ -100,7 +107,14 @@ router.put('/removeItem/:productId', async (req, res, next) => {
       await orderDetails.destroy()
     }
 
-    res.status(200).send('Successfully removed to cart')
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
+
+    res.json(itemsInCart)
   } catch (err) {
     next(err)
   }
@@ -109,14 +123,11 @@ router.put('/removeItem/:productId', async (req, res, next) => {
 // api/cart/clearItem/:productId route
 router.put('/clearItem/:productId', async (req, res, next) => {
   try {
-    // need to grab userId from req.session
+    // grab userId from req.session
     const userId = req.session.passport.user
 
     // grab productId from the req.params
     const productId = parseInt(req.params.productId, 10)
-
-    // find the product in the database to verify it exists product
-    const product = await Product.findByPk(productId)
 
     // find the user's active cart by using their userid
     const userCart = await Cart.findOne({
@@ -124,12 +135,18 @@ router.put('/clearItem/:productId', async (req, res, next) => {
     })
 
     // once cart is found, find the orderDetails of that cart
-
     await OrderDetail.destroy({
       where: {productId: productId, cartId: userCart.id}
     })
 
-    res.status(200).send('Successfully removed to cart')
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
+
+    res.json(itemsInCart)
   } catch (err) {
     next(err)
   }
