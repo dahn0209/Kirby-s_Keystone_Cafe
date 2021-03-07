@@ -31,7 +31,6 @@ export const addItemToCartThunk = productId => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/cart/addItem/${productId}`)
-      console.log('add', data)
       dispatch(setCart(data))
     } catch (err) {
       throw err
@@ -54,7 +53,6 @@ export const removeItemFromCartThunk = productId => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/cart/removeItem/${productId}`)
-      console.log('remove', data)
       dispatch(setCart(data))
     } catch (err) {
       throw err
@@ -65,16 +63,23 @@ export const removeItemFromCartThunk = productId => {
 export const fetchCart = userOrCart => {
   return async dispatch => {
     try {
-      console.log('fetchCatch async')
       if (typeof userOrCart === 'number') {
-        console.log('fetchCart number received')
         const {data} = await axios.get(`/api/cart/view`)
-        console.log('fetchedCart:', data)
         dispatch(setCart(data))
       } else {
-        console.log('fetchCart cartInfo received')
         dispatch(guestCart(userOrCart))
       }
+    } catch (err) {
+      throw err
+    }
+  }
+}
+
+export const combineCartThunk = guestCartInfo => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put('/api/cart/combinecart', guestCartInfo)
+      dispatch(setCart(data))
     } catch (err) {
       throw err
     }

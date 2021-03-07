@@ -4,7 +4,8 @@ import {
   fetchCart,
   addItemToCartThunk,
   removeItemFromCartThunk,
-  clearItemFromCartThunk
+  clearItemFromCartThunk,
+  combineCartThunk
 } from '../store/cart'
 
 class Cart extends React.Component {
@@ -14,14 +15,23 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
-    const {user, fetchUserCart} = this.props
+    const {user, fetchUserCart, combineGuestCart} = this.props
     const isGuest = !user.id
-    console.log('CDM')
     if (!isGuest) {
       // if the user is logged in, fetch their cart from db
+
+      // check if local cart exist,
+      const preExistingCart = JSON.parse(window.localStorage.getItem('cart'))
+
+      if (preExistingCart && preExistingCart.length) {
+        combineGuestCart(preExistingCart)
+      }
+      // if a guest cart exist, send the cart to the database to be created as part of the user's cart
+
       fetchUserCart(user.id)
     } else {
       // if they are a guest, fetch their catch from local storage. If no cart exists, send a blank cart (as a array)
+
       fetchUserCart(JSON.parse(window.localStorage.getItem('cart')) || [])
     }
   }
@@ -29,16 +39,9 @@ class Cart extends React.Component {
   clickButton(clickedActionFunc, productId) {
     const {fetchUserCart, user} = this.props
 
-    if (user.id) {
-      // if the user is logged in, perform the corresponding 'clicked' action and fetch their updated cart
-
-      console.log('Clicked', clickedActionFunc.name)
-      clickedActionFunc(productId)
-      console.log('able to fetchUserCart again')
-      // fetchUserCart(user.id)
-    } else {
-      // if the user is not logged in, grab the cart from local storage, update the values within the cart.. then, update the state in redux.
-      let cart = JSON.parse(window.localStorage.getItem('cart'))
+    // grab local cart and update cart based on button clicked
+    let cart = JSON.parse(window.localStorage.getItem('cart'))
+    if (cart !== null && cart.length) {
       cart = cart
         .map(item => {
           if (productId === item.id) {
@@ -51,7 +54,6 @@ class Cart extends React.Component {
               item.quantity -= 1
               item.totalPrice -= item.price
               item.totalPrice = parseFloat(item.totalPrice.toFixed(2))
-              console.log(typeof item.totalPrice)
             }
             if (clickedActionFunc.name === 'clearFromCart') {
               item.quantity = 0
@@ -61,14 +63,19 @@ class Cart extends React.Component {
         })
         .filter(item => item.quantity > 0)
       window.localStorage.setItem('cart', JSON.stringify(cart))
-      console.log('im going to dispatch the local cart')
+    }
+
+    if (user.id) {
+      // if the user is logged in, perform the corresponding 'clicked' action and fetch their updated cart
+      clickedActionFunc(productId)
+    } else {
+      // if the user is not logged in, then, update the state in redux
       fetchUserCart(cart)
     }
   }
 
   render() {
     const {increment, decrement, clearFromCart, cart} = this.props
-    console.log('render')
     return (
       <div className="main-cart-wrapper">
         <div id="cart-left-panel">
@@ -117,7 +124,6 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps = state => {
-  // console.log('MS)
   return {
     cart: state.cart,
     user: state.user
@@ -126,7 +132,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUserCart: userOrCart => {
-      console.log('fetchUserCartThunk')
       dispatch(fetchCart(userOrCart))
     },
     increment: productId => {
@@ -137,6 +142,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearFromCart: productId => {
       dispatch(clearItemFromCartThunk(productId))
+    },
+    combineGuestCart: guestCart => {
+      dispatch(combineCartThunk(guestCart))
     }
   }
 }

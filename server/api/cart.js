@@ -14,7 +14,7 @@ const formatPrice = itemArray => {
 router.get('/view', async (req, res, next) => {
   try {
     if (!req.session.passport) {
-      res.json('Not logged in but tried to hit the view cart route')
+      res.json('Not logged in but tried to hit the view cart route!')
     } else {
       const userId = req.session.passport.user
 
@@ -61,6 +61,7 @@ router.put('/addItem/:productId', async (req, res, next) => {
       totalPrice: product.price * (orderDetails.quantity + 1)
     })
 
+    // grab and send the updated cart to be dispatched to the store
     const updatedCart = await Cart.findOne({
       where: {userId: userId, processed: false},
       include: [{model: Product}]
@@ -107,6 +108,7 @@ router.put('/removeItem/:productId', async (req, res, next) => {
       await orderDetails.destroy()
     }
 
+    // grab and send the updated cart to be dispatched to the store
     const updatedCart = await Cart.findOne({
       where: {userId: userId, processed: false},
       include: [{model: Product}]
@@ -146,6 +148,45 @@ router.put('/clearItem/:productId', async (req, res, next) => {
 
     let itemsInCart = formatPrice(updatedCart.products)
 
+    res.json(itemsInCart)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// api/cart/combinecart
+router.put('/combinecart', async (req, res, next) => {
+  try {
+    const guestCart = req.body
+    const userId = req.session.passport.user
+
+    const userCart = await Cart.findOne({
+      where: {userId: userId, processed: false}
+    })
+
+    const mappedCart = guestCart.map(item => {
+      return {
+        productId: item.id,
+        quantity: item.quantity,
+        totalPrice: parseInt(item.totalPrice * 100, 10),
+        cartId: userCart.id
+      }
+    })
+
+    for (let i = 0; i < mappedCart.length; i++) {
+      const item = mappedCart[i]
+      const [order, orderWasCreated] = await OrderDetail.findOrCreate({
+        where: {productId: item.productId, cartId: item.cartId}
+      })
+      await order.update({quantity: item.quantity, totalPrice: item.totalPrice})
+    }
+
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
     res.json(itemsInCart)
   } catch (err) {
     next(err)
