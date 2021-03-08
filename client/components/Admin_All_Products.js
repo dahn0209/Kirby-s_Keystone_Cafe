@@ -1,17 +1,19 @@
 import React from 'react'
-import {fetchProducts} from '../store/admin_store/admin_products'
+import {
+  adminFetchProducts,
+  deleteProductThunk
+} from '../store/admin_store/admin_products'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 export class Admin_All_Products extends React.Component {
-  constructor() {
-    super()
-  }
   componentDidMount() {
-    this.props.getProducts()
+    this.props.adminFetchProducts()
+    console.log(this.props)
   }
 
   render() {
-    const products = this.props.products
+    const products = this.props.adminProducts
     return (
       <div>
         <h1>All Products</h1>
@@ -26,9 +28,14 @@ export class Admin_All_Products extends React.Component {
                   <img src={product.imageUrl} />
                 </Link>
                 <p>{product.description}</p>
+                <h3>Price:{product.price}</h3>
                 <div>
-                  <button>Edit</button>
-                  <button>Remove</button>
+                  <button>Edit Product</button>
+                  <button
+                    onClick={() => this.props.deleteProductThunk(product)}
+                  >
+                    Remove Product
+                  </button>
                 </div>
               </div>
             </div>
@@ -41,16 +48,16 @@ export class Admin_All_Products extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log('what is state ', state)
   return {
-    products: state.products
+    adminProducts: state.adminProducts
   }
 }
 
 const mapDipatchToProps = dispatch => {
   return {
-    getProducts: () => {
-      return dispatch(fetchProducts())
-    }
+    adminFetchProducts: () => dispatch(adminFetchProducts()),
+    deleteProductThunk: productId => dispatch(deleteProductThunk(productId))
   }
 }
 

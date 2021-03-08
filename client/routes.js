@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleProduct} from './components'
 import {me} from './store'
 import AllProducts from './components/AllProducts'
+import Admin_All_Products from './components/Admin_All_Products'
+import {Admin_All_Users} from './components/Admin_All_Users'
 import updateUser from './components/updateUser'
 
 /**
@@ -16,7 +18,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, isAdmin} = this.props
 
     return (
       <div>
@@ -24,13 +26,32 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
-              <Route exact path="/home" component={UserHome} />
+              <Route path="/home" component={UserHome} />
+
+              {isAdmin && (
+                // routes placed here are only for Admins
+                <Switch>
+                  <Route
+                    exact
+                    path="/admin/products"
+                    component={Admin_All_Products}
+                  />
+                  <Route
+                    exact
+                    path="/admin/users"
+                    component={Admin_All_Users}
+                  />
+                </Switch>
+              )}
+
               <Route exact path="/updateUser" component={updateUser} />
             </Switch>
           )}
+
           {/* Displays our Login component as a fallback */}
           <Route component={Login} />
         </Switch>
@@ -48,7 +69,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.isAdmin
   }
 }
 
