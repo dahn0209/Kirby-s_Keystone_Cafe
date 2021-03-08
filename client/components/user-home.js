@@ -14,8 +14,6 @@ export const UserHome = props => {
     <div>
       <h3>Welcome, {email}</h3>
 
-      <AllProducts />
-
       {isAdmin ? (
         <Link to="/admin/products">
           <h2>See All Products</h2>
@@ -28,8 +26,6 @@ export const UserHome = props => {
         </Link>
       ) : null}
       <Route component={AllProducts} />
-
-
     </div>
   )
 }
