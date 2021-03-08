@@ -6,6 +6,7 @@ import {Login, Signup, UserHome, SingleProduct} from './components'
 import {me} from './store'
 import AllProducts from './components/AllProducts'
 import Admin_All_Products from './components/Admin_All_Products'
+import {Admin_All_Users} from './components/Admin_All_Users'
 
 /**
  * COMPONENT
@@ -37,6 +38,11 @@ class Routes extends Component {
                     exact
                     path="/admin/products"
                     component={Admin_All_Products}
+                  />
+                  <Route
+                    exact
+                    path="/admin/users"
+                    component={Admin_All_Users}
                   />
                 </Switch>
               )}
