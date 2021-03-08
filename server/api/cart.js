@@ -2,102 +2,104 @@ const express = require('express')
 const router = express.Router()
 const {Product, Cart, OrderDetail} = require('../db/models/index')
 
-// /cart/view
+const formatPrice = itemArray => {
+  itemArray = itemArray.map(function(item) {
+    item.orderDetail.totalPrice = (item.orderDetail.totalPrice / 100).toFixed(2)
+    return item
+  })
+  return itemArray
+}
+
+// /api/cart/view
 router.get('/view', async (req, res, next) => {
   try {
     if (!req.session.passport) {
-      const sessionId = req.sessionID
-      const [userCart, cartWasCreated] = await Cart.findOrCreate({
-        where: {sessionId: sessionId}
-      })
-      const orderDetails = await OrderDetail.findAll({
-        where: {cartId: userCart.id}
-      })
-      res.json(orderDetails)
+      // protect against against bad actors trying to view unauthorized carts
+      res.json("Not logged in but tried to view a user's cart!")
     } else {
       const userId = req.session.passport.user
 
-      // if the person is a user
+      // // if the person is a user
       const [userCart, cartWasCreated] = await Cart.findOrCreate({
-        where: {userId: userId}
+        where: {userId: userId, processed: false},
+        include: [{model: Product}]
       })
 
-      const orderDetails = await OrderDetail.findAll({
-        where: {cartId: userCart.id}
-      })
+      let itemsInCart = formatPrice(userCart.products)
 
-      res.json(orderDetails)
+      res.json(itemsInCart)
     }
   } catch (err) {
     next(err)
   }
 })
 
-// /cart/addItem/:productId route
+// api/cart/addItem/:productId route
 router.put('/addItem/:productId', async (req, res, next) => {
   try {
-    // need to grab userId from req.session
+    // grab userId from req.session
     const userId = req.session.passport.user
-    // const userId = 1
-    // console.log(userId)
-    // // grab productId from the req.params
+
+    // grab productId from the req.params
     const productId = parseInt(req.params.productId, 10)
 
-    // // find the product in the database to verify it exists product
+    // find the product in the database to verify it exists product
     const product = await Product.findByPk(productId)
-    // console.log('PRODUCT: ', product)
-    // // find the user's active cart by using their userid
 
+    // find the user's active cart by using their userid
     const [userCart, cartWasCreated] = await Cart.findOrCreate({
-      where: {userId: userId}
+      where: {userId: userId, processed: false}
     })
 
     // // once cart is found, find the orderDetails of that cart
-
     const [orderDetails, orderWasCreated] = await OrderDetail.findOrCreate({
       where: {productId: productId, cartId: userCart.id}
     })
 
     await orderDetails.update({
-      where: {productId: productId, cartId: userCart.id},
       productId: product.id,
       quantity: orderDetails.quantity + 1,
       totalPrice: product.price * (orderDetails.quantity + 1)
     })
 
-    res.status(200).send('Successfully added to cart')
+    // grab and send the updated cart to be dispatched to the store
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
+
+    res.json(itemsInCart)
   } catch (err) {
     next(err)
   }
 })
 
-// /cart/removeItem/:productId route
+// api/cart/removeItem/:productId route
 router.put('/removeItem/:productId', async (req, res, next) => {
   try {
-    // need to grab userId from req.session
+    // grab userId from req.session
     const userId = req.session.passport.user
-    // const userId = 1
-    // console.log(userId)
-    // // grab productId from the req.params
+
+    // grab productId from the req.params
     const productId = parseInt(req.params.productId, 10)
 
-    // // find the product in the database to verify it exists product
+    // find the product in the database to verify it exists product
     const product = await Product.findByPk(productId)
-    // console.log('PRODUCT: ', product)
-    // // find the user's active cart by using their userid
 
+    // find the user's active cart by using their userid
     const userCart = await Cart.findOne({
-      where: {userId: userId}
+      where: {userId: userId, processed: false}
     })
 
-    // // once cart is found, find the orderDetails of that cart
-
+    // once cart is found, find the orderDetails of that cart
     const orderDetails = await OrderDetail.findOne({
       where: {productId: productId, cartId: userCart.id}
     })
 
+    // update the order details
     await orderDetails.update({
-      where: {productId: productId, cartId: userCart.id},
       productId: product.id,
       quantity: orderDetails.quantity - 1,
       totalPrice: product.price * (orderDetails.quantity - 1)
@@ -107,7 +109,87 @@ router.put('/removeItem/:productId', async (req, res, next) => {
       await orderDetails.destroy()
     }
 
-    res.status(200).send('Successfully removed to cart')
+    // grab and send the updated cart to be dispatched to the store
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
+
+    res.json(itemsInCart)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// api/cart/clearItem/:productId route
+router.put('/clearItem/:productId', async (req, res, next) => {
+  try {
+    // grab userId from req.session
+    const userId = req.session.passport.user
+
+    // grab productId from the req.params
+    const productId = parseInt(req.params.productId, 10)
+
+    // find the user's active cart by using their userid
+    const userCart = await Cart.findOne({
+      where: {userId: userId, processed: false}
+    })
+
+    // once cart is found, find the orderDetails of that cart
+    await OrderDetail.destroy({
+      where: {productId: productId, cartId: userCart.id}
+    })
+
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
+
+    res.json(itemsInCart)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// api/cart/combinecart
+router.put('/combinecart', async (req, res, next) => {
+  try {
+    const guestCart = req.body
+    const userId = req.session.passport.user
+
+    const userCart = await Cart.findOne({
+      where: {userId: userId, processed: false}
+    })
+
+    for (let i = 0; i < guestCart.length; i++) {
+      let item = guestCart[i]
+      const product = await Product.findByPk(item.id)
+      item = {
+        productId: product.id,
+        quantity: item.quantity,
+        totalPrice: product.price * item.quantity,
+        cartId: userCart.id
+      }
+      const [order, orderWasCreated] = await OrderDetail.findOrCreate({
+        where: {productId: item.productId, cartId: item.cartId}
+      })
+      await order.update({
+        quantity: item.quantity,
+        totalPrice: item.totalPrice
+      })
+    }
+
+    const updatedCart = await Cart.findOne({
+      where: {userId: userId, processed: false},
+      include: [{model: Product}]
+    })
+
+    let itemsInCart = formatPrice(updatedCart.products)
+    res.json(itemsInCart)
   } catch (err) {
     next(err)
   }

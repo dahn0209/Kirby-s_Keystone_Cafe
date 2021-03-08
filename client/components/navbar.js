@@ -16,6 +16,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <a href="#" onClick={handleClick}>
             Logout
           </a>
+          <Link to="/cart/1">Cart</Link>
         </div>
       ) : (
         <div className="nav-item">
@@ -26,6 +27,9 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/login">Login</Link>
 
           <Link to="/signup">Sign Up</Link>
+
+          {/* update to user parameter after finished testing*/}
+          <Link to="/cart/view">Cart</Link>
         </div>
       )}
     </nav>
@@ -46,6 +50,7 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
+      window.localStorage.removeItem('cart')
     }
   }
 }

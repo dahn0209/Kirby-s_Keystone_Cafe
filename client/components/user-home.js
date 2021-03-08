@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import AllProducts from './AllProducts'
 import {Route, Link} from 'react-router-dom'
+
 /**
  * COMPONENT
  */
@@ -12,6 +13,9 @@ export const UserHome = props => {
   return (
     <div>
       <h3>Welcome, {email}</h3>
+
+      <AllProducts />
+
       {isAdmin ? (
         <Link to="/admin/products">
           <h2>See All Products</h2>
@@ -24,6 +28,7 @@ export const UserHome = props => {
         </Link>
       ) : null}
       <Route component={AllProducts} />
+
 
     </div>
   )
