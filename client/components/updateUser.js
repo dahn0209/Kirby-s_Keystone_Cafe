@@ -50,6 +50,8 @@ export class UpdateUser extends React.Component {
     })
   }
   render() {
+    console.log('this.props.user.password--->', this.props.user.password)
+
     return (
       <div>
         <div>
@@ -76,12 +78,7 @@ export class UpdateUser extends React.Component {
 
             <label>
               Address:
-              <input
-                type="text"
-                name="address"
-                value={this.state.address}
-                onChange={this.handleChange}
-              />
+              <input type="text" name="address" onChange={this.handleChange} />
             </label>
 
             <label>
@@ -99,7 +96,6 @@ export class UpdateUser extends React.Component {
               <input
                 name="password"
                 type="password"
-                value={this.state.password}
                 onChange={this.handleChange}
               />
             </label>
