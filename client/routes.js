@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleProduct} from './components'
 import {me} from './store'
 import AllProducts from './components/AllProducts'
+import Checkout from './components/Checkout'
 import Admin_All_Products from './components/Admin_All_Products'
 import {Admin_All_Users} from './components/Admin_All_Users'
 import updateUser from './components/updateUser'
@@ -57,6 +58,7 @@ class Routes extends Component {
         </Switch>
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/products/:productId" component={SingleProduct} />
+        <Route exact path="/checkout" component={Checkout} />
       </div>
     )
   }
