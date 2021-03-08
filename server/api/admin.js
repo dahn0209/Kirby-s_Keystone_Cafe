@@ -96,10 +96,9 @@ router.delete('/products/:id', checkAdmin, async (req, res, next) => {
 
     if (!product) {
       res.sendStatus(404)
-    } else {
-      await product.destroy()
-      res.send(product)
     }
+    await product.destroy()
+    res.send(product)
   } catch (error) {
     next(error)
   }

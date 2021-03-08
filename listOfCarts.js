@@ -1,6 +1,6 @@
 const carts = [
   {
-    date: null,
+    date: Date.now(),
     processed: true
   },
 
@@ -14,7 +14,7 @@ const carts = [
   },
 
   {
-    date: null,
+    date: Date.now(),
     processed: true
   }
 ]
