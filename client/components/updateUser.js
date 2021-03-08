@@ -1,6 +1,5 @@
 import React from 'react'
 import {fetchUpdateUser} from '../store/users'
-// import {fetchSingleUser} from '../store/singleUser'
 
 import {connect} from 'react-redux'
 
@@ -49,7 +48,6 @@ export class UpdateUser extends React.Component {
       ...this.props.user,
       ...this.state
     })
-    // await this.props.fetchSingleUser(this.props.user.id)
   }
   render() {
     return (
@@ -121,9 +119,6 @@ const mapDispatch = dispatch => {
     fetchUpdateUser: state => {
       return dispatch(fetchUpdateUser(state))
     }
-    // fetchSingleUser: (id) => {
-    //   return dispatch(fetchSingleUser(id))
-    // },
   }
 }
 
