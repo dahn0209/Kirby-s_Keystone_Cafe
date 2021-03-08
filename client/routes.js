@@ -25,21 +25,21 @@ class Routes extends Component {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
 
-          {isAdmin && (
-            // routes placed here are only for Admins
-            <Switch>
-              <Route
-                exact
-                path="/admin/products"
-                component={Admin_All_Products}
-              />
-            </Switch>
-          )}
-
           {isLoggedIn && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/home" component={UserHome} />
+
+              {isAdmin && (
+                // routes placed here are only for Admins
+                <Switch>
+                  <Route
+                    exact
+                    path="/admin/products"
+                    component={Admin_All_Products}
+                  />
+                </Switch>
+              )}
             </Switch>
           )}
 

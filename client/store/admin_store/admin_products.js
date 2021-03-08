@@ -54,7 +54,7 @@ export const deleteProduct = product => {
   }
 }
 
-// thunk for DELETE_PRODUCT
+//thunk for DELETE_PRODUCT
 export const deleteProductThunk = product => {
   return async dispatch => {
     try {

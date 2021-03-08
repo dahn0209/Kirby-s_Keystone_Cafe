@@ -1,11 +1,15 @@
 import React from 'react'
-import {adminFetchProducts} from '../store/admin_store/admin_products'
+import {
+  adminFetchProducts,
+  deleteProductThunk
+} from '../store/admin_store/admin_products'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 export class Admin_All_Products extends React.Component {
   componentDidMount() {
-    this.props.adminGetProducts()
+    this.props.adminFetchProducts()
+    console.log(this.props)
   }
 
   render() {
@@ -27,7 +31,11 @@ export class Admin_All_Products extends React.Component {
                 <h3>Price:{product.price}</h3>
                 <div>
                   <button>Edit Product</button>
-                  <button>Remove Product</button>
+                  <button
+                    onClick={() => this.props.deleteProductThunk(product)}
+                  >
+                    Remove Product
+                  </button>
                 </div>
               </div>
             </div>
@@ -40,16 +48,16 @@ export class Admin_All_Products extends React.Component {
 }
 
 const mapStateToProps = state => {
+  console.log('what is state ', state)
   return {
-    adminProducts: state.products
+    adminProducts: state.adminProducts
   }
 }
 
 const mapDipatchToProps = dispatch => {
   return {
-    adminGetProducts: () => {
-      return dispatch(adminFetchProducts())
-    }
+    adminFetchProducts: () => dispatch(adminFetchProducts()),
+    deleteProductThunk: productId => dispatch(deleteProductThunk(productId))
   }
 }
 
