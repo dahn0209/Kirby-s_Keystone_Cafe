@@ -7,6 +7,7 @@ import {me} from './store'
 import AllProducts from './components/AllProducts'
 import Admin_All_Products from './components/Admin_All_Products'
 import {Admin_All_Users} from './components/Admin_All_Users'
+import updateUser from './components/updateUser'
 
 /**
  * COMPONENT
@@ -46,6 +47,8 @@ class Routes extends Component {
                   />
                 </Switch>
               )}
+
+              <Route exact path="/updateUser" component={updateUser} />
             </Switch>
           )}
 
