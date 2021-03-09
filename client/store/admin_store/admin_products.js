@@ -83,6 +83,7 @@ export const updateProductThunk = product => {
         product
       )
       const updatedProduct = response.data
+
       dispatch(updateProduct(updatedProduct))
     } catch (error) {
       console.log(error)

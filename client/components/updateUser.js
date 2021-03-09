@@ -84,7 +84,6 @@ export class UpdateUser extends React.Component {
                 <input
                   type="text"
                   name="address"
-                  // value={this.state.address}
                   onChange={this.handleChange}
                 />
               </label>

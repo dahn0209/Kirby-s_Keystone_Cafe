@@ -81,7 +81,7 @@ router.put('/products/:id', checkAdmin, async (req, res, next) => {
   try {
     const productId = req.params.id
     const product = await Product.findByPk(productId)
-
+    req.body.price = req.body.price * 100
     res.send(await product.update(req.body))
   } catch (error) {
     next(error)
