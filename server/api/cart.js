@@ -20,7 +20,7 @@ router.get('/view', async (req, res, next) => {
       const userId = req.session.passport.user
 
       // // if the person is a user
-      const [userCart, cartWasCreated] = await Cart.findOrCreate({
+      const [userCart] = await Cart.findOrCreate({
         where: {userId: userId, processed: false},
         include: [{model: Product}]
       })
@@ -46,31 +46,36 @@ router.put('/addItem/:productId', async (req, res, next) => {
     // find the product in the database to verify it exists product
     const product = await Product.findByPk(productId)
 
-    // find the user's active cart by using their userid
-    const [userCart, cartWasCreated] = await Cart.findOrCreate({
-      where: {userId: userId, processed: false}
-    })
+    if (!product) {
+      res.send('Product does not exist!')
+    } else {
+      // find the user's active cart by using their userid
+      const [userCart] = await Cart.findOrCreate({
+        where: {userId: userId, processed: false}
+      })
 
-    // // once cart is found, find the orderDetails of that cart
-    const [orderDetails, orderWasCreated] = await OrderDetail.findOrCreate({
-      where: {productId: productId, cartId: userCart.id}
-    })
+      // // once cart is found, find the orderDetails of that cart
+      const [orderDetails] = await OrderDetail.findOrCreate({
+        where: {productId: productId, cartId: userCart.id}
+      })
 
-    await orderDetails.update({
-      productId: product.id,
-      quantity: orderDetails.quantity + 1,
-      totalPrice: product.price * (orderDetails.quantity + 1)
-    })
+      // update the entry in OrderDetails
+      await orderDetails.update({
+        productId: product.id,
+        quantity: orderDetails.quantity + 1,
+        totalPrice: product.price * (orderDetails.quantity + 1)
+      })
 
-    // grab and send the updated cart to be dispatched to the store
-    const updatedCart = await Cart.findOne({
-      where: {userId: userId, processed: false},
-      include: [{model: Product}]
-    })
+      // grab and send the updated cart to be dispatched to the store
+      const updatedCart = await Cart.findOne({
+        where: {userId: userId, processed: false},
+        include: [{model: Product}]
+      })
 
-    let itemsInCart = formatPrice(updatedCart.products)
+      let itemsInCart = formatPrice(updatedCart.products)
 
-    res.json(itemsInCart)
+      res.json(itemsInCart)
+    }
   } catch (err) {
     next(err)
   }
@@ -105,6 +110,7 @@ router.put('/removeItem/:productId', async (req, res, next) => {
       totalPrice: product.price * (orderDetails.quantity - 1)
     })
 
+    // delete the record if item is no longer needed
     if (orderDetails.quantity === 0) {
       await orderDetails.destroy()
     }
@@ -142,6 +148,7 @@ router.put('/clearItem/:productId', async (req, res, next) => {
       where: {productId: productId, cartId: userCart.id}
     })
 
+    // grab and send the updated cart to be dispatched to the store
     const updatedCart = await Cart.findOne({
       where: {userId: userId, processed: false},
       include: [{model: Product}]
@@ -161,34 +168,44 @@ router.put('/combinecart', async (req, res, next) => {
     const guestCart = req.body
     const userId = req.session.passport.user
 
+    // find the user's active cart
     const userCart = await Cart.findOne({
       where: {userId: userId, processed: false}
     })
 
     for (let i = 0; i < guestCart.length; i++) {
       let item = guestCart[i]
+
+      // find the product's information
       const product = await Product.findByPk(item.id)
+
       item = {
         productId: product.id,
         quantity: item.quantity,
         totalPrice: product.price * item.quantity,
         cartId: userCart.id
       }
-      const [order, orderWasCreated] = await OrderDetail.findOrCreate({
+
+      // find or create the order (if it doesn't exist)
+      const [order] = await OrderDetail.findOrCreate({
         where: {productId: item.productId, cartId: item.cartId}
       })
+
+      // update the order details
       await order.update({
         quantity: item.quantity,
         totalPrice: item.totalPrice
       })
     }
 
+    // grab the updated cart to be sent back
     const updatedCart = await Cart.findOne({
       where: {userId: userId, processed: false},
       include: [{model: Product}]
     })
 
     let itemsInCart = formatPrice(updatedCart.products)
+
     res.json(itemsInCart)
   } catch (err) {
     next(err)

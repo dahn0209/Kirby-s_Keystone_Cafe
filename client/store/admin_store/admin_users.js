@@ -13,10 +13,11 @@ export const setUsers = users => {
 }
 
 // thunk for SET_USERS
-export const fetchUsers = () => {
+export const adminFetchUsers = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/admin/users')
+      const {data} = await axios.get('/api/admin/users')
+      console.log('data ', data)
       dispatch(setUsers(data))
     } catch (error) {
       console.log(error)
@@ -25,7 +26,7 @@ export const fetchUsers = () => {
 }
 
 //reducer
-export default function usersReducer(state = initialState, action) {
+export default function adminUsersReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USERS:
       return action.users

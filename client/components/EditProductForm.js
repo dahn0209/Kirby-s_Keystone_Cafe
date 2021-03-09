@@ -21,10 +21,8 @@ class EditProduct extends React.Component {
   componentDidMount() {
     const productId = this.props.match.params.productId
     this.props.fetchSingleProduct(productId)
-    console.log('props on edit ', this.props)
-    const {name, description, price, id} = this.props.updatedProduct
+    const {name, description, price} = this.props.updatedProduct
     if (productId) {
-      console.log('IDDDDD')
       this.setState({
         name,
         price,
@@ -35,7 +33,7 @@ class EditProduct extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {name, price, description, id} = this.props.updatedProduct
-    if (!prevProps.updatedProduct.id && id) {
+    if (prevProps.updatedProduct.id !== id) {
       this.setState({
         name,
         price,
@@ -50,9 +48,9 @@ class EditProduct extends React.Component {
     })
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     event.preventDefault()
-    await this.props.updateProductThunk({
+    this.props.updateProductThunk({
       ...this.props.updatedProduct,
       ...this.state
     })
@@ -102,7 +100,7 @@ class EditProduct extends React.Component {
             Submit
           </button>
           <Link to="/admin/products">
-            <button className="delete-button">Cancel</button>
+            <button className="delete-button">Back to All Products</button>
           </Link>
         </form>
       </div>

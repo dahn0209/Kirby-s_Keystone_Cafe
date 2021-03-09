@@ -21,7 +21,7 @@ export const UserHome = props => {
       ) : null}
 
       {isAdmin ? (
-        <Link to="api/admin/users">
+        <Link to="/admin/users">
           <h2>See All Users as Admin</h2>
         </Link>
       ) : null}

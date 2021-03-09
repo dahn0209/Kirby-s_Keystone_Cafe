@@ -69,7 +69,9 @@ router.get('/products', async (req, res, next) => {
 // /api/admin/products
 router.post('/products', checkAdmin, async (req, res, next) => {
   try {
+    req.body.price = req.body.price * 100
     const product = await Product.create(req.body)
+
     res.send(product)
   } catch (error) {
     next(error)
