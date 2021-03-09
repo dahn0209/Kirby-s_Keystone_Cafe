@@ -7,7 +7,8 @@ import {
   clearItemFromCartThunk,
   combineCartThunk
 } from '../store/cart'
-import Checkout from './Checkout'
+import {Link} from 'react-router-dom'
+
 
 class Cart extends React.Component {
   constructor() {
@@ -39,24 +40,37 @@ class Cart extends React.Component {
 
     // grab local cart and update cart based on button clicked
     let cart = JSON.parse(window.localStorage.getItem('cart'))
+
     if (cart !== null && cart.length) {
       cart = cart
         .map(item => {
           if (productId === item.id) {
+            // convert total price and price in preparation for calculations
+            item.totalPrice = parseInt(
+              parseFloat(item.totalPrice, 10) * 100,
+              10
+            )
+            item.price = parseInt(parseFloat(item.price, 10) * 100, 10)
+
             if (clickedActionFunc.name === 'increment') {
               item.quantity += 1
-              item.totalPrice += item.price
-              item.totalPrice = parseFloat(item.totalPrice.toFixed(2))
+              // add price to total price and revert format
+              item.totalPrice = ((item.totalPrice + item.price) / 100).toFixed(
+                2
+              )
             }
             if (clickedActionFunc.name === 'decrement') {
               item.quantity -= 1
-              item.totalPrice -= item.price
-              item.totalPrice = parseFloat(item.totalPrice.toFixed(2))
+              item.totalPrice = ((item.totalPrice - item.price) / 100).toFixed(
+                2
+              )
             }
             if (clickedActionFunc.name === 'clearFromCart') {
               item.quantity = 0
             }
           }
+          // revert format of item price
+          item.price = (item.price / 100).toFixed(2)
           return item
         })
         .filter(item => item.quantity > 0)
@@ -86,7 +100,9 @@ class Cart extends React.Component {
               </div>
               <br />
               <b>
-                price: {product.totalPrice || product.orderDetail.totalPrice}
+                price:{' '}
+                {(product.totalPrice * 100 / 100).toFixed(2) ||
+                  product.orderDetail.totalPrice}
               </b>
               <div>
                 <br />
@@ -112,8 +128,11 @@ class Cart extends React.Component {
             </div>
           ))}
         </div>
-        <div id="cart-right-panel">
-          <Checkout user={user} userCart={cart} />
+
+        <div id="container">
+
+          <Link to="/checkout">Checkout</Link>
+
         </div>
       </div>
     )
