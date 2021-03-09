@@ -45,11 +45,7 @@ class Routes extends Component {
                     path="/admin/products"
                     component={AdminAllProducts}
                   />
-                  <Route
-                    exact
-                    path="api/admin/users"
-                    component={AdminAllUsers}
-                  />
+                  <Route exact path="/admin/users" component={AdminAllUsers} />
 
                   <Route
                     exact
