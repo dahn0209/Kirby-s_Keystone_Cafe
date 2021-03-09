@@ -19,12 +19,19 @@ class Checkout extends React.Component {
 
   render() {
     const {user, cart} = this.props
-    console.log(cart)
+
+    const guestOrUser = () => {
+      if (Object.keys(user).length === 0) {
+        return 'Guest'
+      } else {
+        return `${user.firstName} ${user.lastName}`
+      }
+    }
 
     return (
       <div>
         <h1>Confirm your details before submitting</h1>
-        <h2>{user ? user.firstName : 'Guest'}</h2>
+        <h2>{guestOrUser()}</h2>
         <h3>Current Order:</h3>
         {cart.map(product => (
           <div key={product.id} id="checkoutitem">

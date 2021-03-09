@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import AddProductForm from './AddProductForm'
 
-export class Admin_All_Products extends React.Component {
+export class AdminAllProducts extends React.Component {
   componentDidMount() {
     this.props.adminFetchProducts()
   }
@@ -64,4 +64,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin_All_Products)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminAllProducts)
