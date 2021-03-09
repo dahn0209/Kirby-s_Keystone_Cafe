@@ -32,21 +32,24 @@ const User = db.define('user', {
   },
   firstName: {
     type: Sequelize.STRING,
-    allowNull: true,
+    defaultValue: 'Add First Name',
+    allowNull: false,
     validate: {
       notEmpty: true
     }
   },
   lastName: {
     type: Sequelize.STRING,
-    allowNull: true,
+    defaultValue: 'Add Last Name',
+    allowNull: false,
     validate: {
       notEmpty: true
     }
   },
   address: {
     type: Sequelize.STRING,
-    allowNull: true,
+    defaultValue: 'Add Address',
+    allowNull: false,
     validate: {
       notEmpty: true
     }

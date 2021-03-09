@@ -24,11 +24,8 @@ class AddProductForm extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log('???????')
     event.preventDefault()
-    console.log('logging?')
     this.props.createNewProduct({...this.state})
-    console.log('hello')
     this.setState(defaultState)
   }
 
