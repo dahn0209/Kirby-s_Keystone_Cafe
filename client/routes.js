@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleProduct} from './components'
 import {me} from './store'
 import AllProducts from './components/AllProducts'
-
 import Cart from './components/Cart'
 
 import Checkout from './components/Checkout'
@@ -56,6 +55,7 @@ class Routes extends Component {
                     path="/admin/products/:productId/edit"
                     component={EditProduct}
                   />
+                  <Route exact path="/updateUser" component={updateUser} />
                 </Switch>
               )}
 
@@ -72,6 +72,7 @@ class Routes extends Component {
         <Route exact path="/cart/view" component={Cart} />
 
         <Route exact path="/checkout" component={Checkout} />
+
         <Route exact path="/confirmation" component={Confirmation} />
       </div>
     )
