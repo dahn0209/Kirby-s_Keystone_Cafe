@@ -27,16 +27,16 @@ class Checkout extends React.Component {
         <h2>{user ? user.firstName : 'Guest'}</h2>
         <h3>Current Order:</h3>
         {cart.map(product => (
-          <div key={product.id} id="checkoutitem">
-            <h4>{product.name}</h4>
-            <br />
-            <span>
-              Quantity {product.quantity || product.orderDetail.quantity}
-            </span>
-            <span>
+          <table key={product.id} id="checkoutitem">
+            <tr>
+              <img src={product.imageUrl} alt={product.name} />
+            </tr>
+            <td>{product.name}</td>
+            <td>Quantity {product.quantity || product.orderDetail.quantity}</td>
+            <td>
               Total {product.totalPrice || product.orderDetail.totalPrice}
-            </span>
-          </div>
+            </td>
+          </table>
         ))}
         <h4>Total</h4>
         <h3>
