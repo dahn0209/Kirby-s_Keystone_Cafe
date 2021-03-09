@@ -11,7 +11,7 @@ import Checkout from './components/Checkout'
 import Confirmation from './components/Confirmation'
 import AdminAllProducts from './components/AdminAllProducts'
 import EditProduct from './components/EditProductForm'
-import {AdminAllUsers} from './components/AdminAllUsers'
+import AdminAllUsers from './components/AdminAllUsers'
 import updateUser from './components/updateUser'
 
 /**
@@ -45,11 +45,12 @@ class Routes extends Component {
                     path="/admin/products"
                     component={AdminAllProducts}
                   />
-                  {/* <Route
+                  <Route
                     exact
                     path="api/admin/users"
                     component={AdminAllUsers}
-                  /> */}
+                  />
+
                   <Route
                     exact
                     path="/admin/products/:productId/edit"
