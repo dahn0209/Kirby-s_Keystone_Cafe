@@ -14,22 +14,18 @@ export const UserHome = props => {
     <div>
       <h3>Welcome, {email}</h3>
 
-      <AllProducts />
-
       {isAdmin ? (
         <Link to="/admin/products">
-          <h2>See All Products</h2>
+          <h2>See All Products as Admin</h2>
         </Link>
       ) : null}
 
       {isAdmin ? (
-        <Link to="/admin/users">
-          <h2>See All Users</h2>
+        <Link to="api/admin/users">
+          <h2>See All Users as Admin</h2>
         </Link>
       ) : null}
       <Route component={AllProducts} />
-
-
     </div>
   )
 }

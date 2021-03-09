@@ -78,11 +78,14 @@ export const updateProduct = product => {
 export const updateProductThunk = product => {
   return async dispatch => {
     try {
+      console.log('this hit?')
       const response = await axios.put(
         `/api/admin/products/${product.id}`,
         product
       )
+      console.log('how bout this?')
       const updatedProduct = response.data
+
       dispatch(updateProduct(updatedProduct))
     } catch (error) {
       console.log(error)
