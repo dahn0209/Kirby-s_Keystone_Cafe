@@ -1,6 +1,5 @@
 import React from 'react'
 import {fetchUpdateUser} from '../store/users'
-
 import {connect} from 'react-redux'
 
 export class UpdateUser extends React.Component {
@@ -42,63 +41,76 @@ export class UpdateUser extends React.Component {
       [event.target.name]: event.target.value
     })
   }
-  async handleSubmit(event) {
-    event.preventDefault()
+  async handleSubmit() {
     await this.props.fetchUpdateUser({
       ...this.props.user,
       ...this.state
     })
   }
   render() {
-    console.log('this.props.user.password--->', this.props.user.password)
-
     return (
       <div>
+        <h1>Update Profile</h1>
         <div>
           <form onSubmit={this.handleSubmit}>
-            <label>
-              First Name:
-              <input
-                type="text"
-                name="firstName"
-                value={this.state.firstName}
-                onChange={this.handleChange}
-              />
-            </label>
+            <div>
+              <label>
+                First Name:
+                <input
+                  type="text"
+                  name="firstName"
+                  value={this.state.firstName}
+                  onChange={this.handleChange}
+                />
+              </label>
+            </div>
 
-            <label>
-              Last Name:
-              <input
-                type="text"
-                name="lastName"
-                value={this.state.lastName}
-                onChange={this.handleChange}
-              />
-            </label>
+            <div>
+              <label>
+                Last Name:
+                <input
+                  type="text"
+                  name="lastName"
+                  value={this.state.lastName}
+                  onChange={this.handleChange}
+                />
+              </label>
+            </div>
 
-            <label>
-              Address:
-              <input type="text" name="address" onChange={this.handleChange} />
-            </label>
+            <div>
+              {' '}
+              <label>
+                Address:
+                <input
+                  type="text"
+                  name="address"
+                  onChange={this.handleChange}
+                />
+              </label>
+            </div>
 
-            <label>
-              Email:
-              <input
-                type="text"
-                name="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </label>
+            <div>
+              <label>
+                Email:
+                <input
+                  type="text"
+                  name="email"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+              </label>
+            </div>
 
-            <label>
-              Password:
-              <input
-                name="password"
-                type="password"
-                onChange={this.handleChange}
-              />
-            </label>
+            <div>
+              <label>
+                Password:
+                <input
+                  name="password"
+                  type="password"
+                  onChange={this.handleChange}
+                />
+              </label>
+            </div>
 
             <input type="submit" value="Submit" />
           </form>
