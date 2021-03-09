@@ -13,7 +13,7 @@ class AllProducts extends React.Component {
     return (
       <div>
         <h1>All Products</h1>
-        <h2>List of Product:</h2>
+        <h2>List of Products:</h2>
         <div id="all-products-wrapper">
           {products.map(product => {
             return (
