@@ -21,8 +21,7 @@ class EditProduct extends React.Component {
   componentDidMount() {
     const productId = this.props.match.params.productId
     this.props.fetchSingleProduct(productId)
-    console.log('props on edit ', this.props)
-    const {name, description, price, id} = this.props.updatedProduct
+    const {name, description, price} = this.props.updatedProduct
     if (productId) {
       this.setState({
         name,
@@ -101,7 +100,7 @@ class EditProduct extends React.Component {
             Submit
           </button>
           <Link to="/admin/products">
-            <button className="delete-button">Cancel</button>
+            <button className="delete-button">Back to All Products</button>
           </Link>
         </form>
       </div>
