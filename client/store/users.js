@@ -36,7 +36,7 @@ export const fetchUpdateUser = user => {
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function usersReducer(state = defaultUser, action) {
   switch (action.type) {
     case UPDATE_USER:
       return state.map(user => {
