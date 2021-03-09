@@ -38,4 +38,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Admin_All_Users)
+export default connect(mapState, mapDispatch)(AdminAllUsers)
