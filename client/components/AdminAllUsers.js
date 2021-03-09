@@ -1,6 +1,6 @@
 import React from 'react'
 
-export class Admin_All_Users extends React.Component {
+export class AdminAllUsers extends React.Component {
   render() {
     return (
       <div>
