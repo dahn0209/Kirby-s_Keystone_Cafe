@@ -7,6 +7,7 @@ import {
   clearItemFromCartThunk,
   combineCartThunk
 } from '../store/cart'
+import Checkout from './Checkout'
 
 class Cart extends React.Component {
   constructor() {
@@ -72,7 +73,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const {increment, decrement, clearFromCart, cart} = this.props
+    const {increment, decrement, clearFromCart, cart, user} = this.props
     return (
       <div className="main-cart-wrapper">
         <div id="cart-left-panel">
@@ -112,8 +113,7 @@ class Cart extends React.Component {
           ))}
         </div>
         <div id="cart-right-panel">
-          CheckoutPage
-          {/* put total and summary details and checkout button in this panel */}
+          <Checkout user={user} userCart={cart} />
         </div>
       </div>
     )
