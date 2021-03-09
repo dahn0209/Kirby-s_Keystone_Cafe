@@ -86,7 +86,7 @@ class Cart extends React.Component {
   }
 
   render() {
-    const {increment, decrement, clearFromCart, cart} = this.props
+    const {increment, decrement, clearFromCart, cart, user} = this.props
     return (
       <div className="main-cart-wrapper">
         <div id="cart-left-panel">
@@ -127,7 +127,9 @@ class Cart extends React.Component {
             </div>
           ))}
         </div>
-        <div id="cart-right-panel">
+
+        <div id="container">
+
           <Link to="/checkout">Checkout</Link>
         </div>
       </div>
