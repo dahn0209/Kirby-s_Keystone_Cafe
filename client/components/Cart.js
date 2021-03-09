@@ -9,7 +9,6 @@ import {
 } from '../store/cart'
 import {Link} from 'react-router-dom'
 
-
 class Cart extends React.Component {
   constructor() {
     super()
@@ -100,9 +99,7 @@ class Cart extends React.Component {
               </div>
               <br />
               <b>
-                price:{' '}
-                {(product.totalPrice * 100 / 100).toFixed(2) ||
-                  product.orderDetail.totalPrice}
+                price: {product.totalPrice || product.orderDetail.totalPrice}
               </b>
               <div>
                 <br />
@@ -130,9 +127,7 @@ class Cart extends React.Component {
         </div>
 
         <div id="container">
-
           <Link to="/checkout">Checkout</Link>
-
         </div>
       </div>
     )
