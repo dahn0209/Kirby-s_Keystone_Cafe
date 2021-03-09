@@ -9,6 +9,7 @@ import {
 } from '../store/cart'
 import {Link} from 'react-router-dom'
 
+
 class Cart extends React.Component {
   constructor() {
     super()
@@ -131,6 +132,7 @@ class Cart extends React.Component {
         <div id="container">
 
           <Link to="/checkout">Checkout</Link>
+
         </div>
       </div>
     )
