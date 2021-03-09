@@ -20,11 +20,15 @@ export const getCheckoutConfirm = cart => {
   }
 }
 
-export const fetchCheckout = () => {
+export const fetchCheckout = userOrCart => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/checkout')
-      dispatch(setCheckout(data))
+      if (typeof userOrCart === 'number') {
+        const {data} = await axios.get(`/api/checkout`)
+        dispatch(setCheckout(data))
+      } else {
+        dispatch(setCheckout(userOrCart))
+      }
     } catch (err) {
       console.log(err)
     }
@@ -34,7 +38,7 @@ export const fetchCheckout = () => {
 export const fetchCheckoutConfirm = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/api/checkout/confirmation')
+      const {data} = await axios.get(`/api/checkout/confirmation`)
       dispatch(getCheckoutConfirm(data))
     } catch (err) {
       console.log(err)

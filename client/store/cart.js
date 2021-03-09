@@ -47,11 +47,8 @@ export const removeItemFromCartThunk = productId => {
 export const fetchCart = userOrCart => {
   return async dispatch => {
     try {
-      console.log('userOrCart: ', userOrCart)
       if (typeof userOrCart === 'number') {
-        console.log('trigger')
         const {data} = await axios.get(`/api/cart/view`)
-        console.log('returned data: ', data)
         dispatch(setCart(data))
       } else {
         dispatch(setCart(userOrCart))
