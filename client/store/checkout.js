@@ -38,7 +38,6 @@ export const fetchCheckout = userOrCart => {
 export const fetchCheckoutConfirm = () => {
   return async dispatch => {
     try {
-      console.log('are we hitting this? REDUX ')
       const {data} = await axios.get(`/api/checkout/confirmation`)
       dispatch(getCheckoutConfirm(data))
     } catch (err) {
