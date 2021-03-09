@@ -25,12 +25,22 @@ router.get('/confirmation', async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       where: {
-        userId: userId
+        userId: userId,
+        processed: false
       }
     })
 
-    cart.processed = true
-    await cart.save()
+    cart.update({
+      processed: true
+    })
+
+    //make a new cart send an empty cart
+    // const newCart = await Cart.findOrCreate({
+    //   where: {
+    //     userId: userId,
+    //     processed: false,
+    //   },
+    // })
 
     res.status(202).send(cart)
   } catch (err) {

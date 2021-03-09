@@ -26,18 +26,28 @@ class Checkout extends React.Component {
         <h1>Confirm your details before submitting</h1>
         <h2>{user ? user.firstName : 'Guest'}</h2>
         <h3>Current Order:</h3>
-        {cart.map(product => (
-          <table key={product.id} id="checkoutitem">
+        <table>
+          <thead>
             <tr>
-              <img src={product.imageUrl} alt={product.name} />
+              <th>Product Image</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Total</th>
             </tr>
-            <td>{product.name}</td>
-            <td>Quantity {product.quantity || product.orderDetail.quantity}</td>
-            <td>
-              Total {product.totalPrice || product.orderDetail.totalPrice}
-            </td>
-          </table>
-        ))}
+          </thead>
+          <tbody>
+            {cart.map(product => (
+              <tr key={product.id} id="checkoutitem">
+                <td>
+                  <img src={product.imageUrl} alt={product.name} />
+                </td>
+                <td>{product.name}</td>
+                <td>{product.quantity || product.orderDetail.quantity}</td>
+                <td>{product.totalPrice || product.orderDetail.totalPrice}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         <h4>Total</h4>
         <h3>
           {user.id
@@ -57,7 +67,6 @@ class Checkout extends React.Component {
 }
 
 const mapState = state => {
-  console.log(state)
   return {
     user: state.user,
     cart: state.cart

@@ -1,53 +1,53 @@
 const products = [
   {
-    name: 'smash ball',
+    name: 'Smash Ball',
     description: 'unleash your best move on your foes!',
     imageUrl: 'https://www.ssbwiki.com/images/a/a2/SSBU_spirit_Smash_Ball.png',
     price: 59995
   },
   {
-    name: 'blast box',
+    name: 'Blast Box',
     description: 'send your enemies flying, but be careful!',
     imageUrl:
-      'https://lh3.googleusercontent.com/proxy/ZH5BrejxpE6KCdzT5JWf_E_aLi-BA7gEVdiWrUdftlKI8x42k8yKVVxw31xRHmyjQ5eDvOdyXzK7qxNCRRn0cqws4GIukpoY4OrsVcyopLzNZfcKIZ1O3Q',
+      'https://www.models-resource.com/resources/big_icons/11/10155.png',
     price: 25000
   },
   {
-    name: 'maxim tomato',
+    name: 'Maxim Tomato',
     description: 'get your daily requirement of veggies',
     imageUrl:
       'https://www.models-resource.com/resources/big_icons/33/32446.png',
     price: 29599
   },
   {
-    name: 'bunny hood',
+    name: 'Bunny Hood',
     description: 'move faster than the wind!',
     imageUrl:
       'https://www.models-resource.com/resources/big_icons/33/32601.png',
     price: 22999
   },
   {
-    name: 'assist trophy',
+    name: 'Assist Trophy',
     description: 'Call on a friend for help!',
     imageUrl:
       'https://img.rankedboost.com/wp-content/uploads/2018/11/item_0_assist.png',
     price: 19999
   },
   {
-    name: 'poke ball',
+    name: 'Poke-ball',
     description: 'choose a pokemon to help you in battle!',
     imageUrl:
       'https://www.models-resource.com/resources/big_icons/29/28667.png',
     price: 14999
   },
   {
-    name: 'master ball',
+    name: 'Master Ball',
     description: "summon a legendary pokemon's strength!",
     imageUrl: 'https://www.mariowiki.com/images/d/d5/MasterBallUltimate.png',
     price: 34999
   },
   {
-    name: 'heart container',
+    name: 'Heart Container',
     description:
       "You've found a heart container! You feel like you're just getting warmed up!",
     imageUrl:
@@ -55,27 +55,27 @@ const products = [
     price: 29999
   },
   {
-    name: 'smash ball f',
+    name: 'Smash Ball F',
     description: 'Smash ball on sale!... Or is it?',
     imageUrl: 'https://mario.wiki.gallery/images/e/ee/SmashBallUltimate.png',
     price: 19999
   },
   {
-    name: 'metal box',
+    name: 'Metal Box',
     description:
       "Who's more metal... you or Iron Maiden? You can safely answer that its you now",
     imageUrl: 'https://www.models-resource.com/resources/big_icons/4/3606.png',
     price: 34999
   },
   {
-    name: 'timer',
+    name: 'Timer',
     description: 'Are you always missing your punches? Not anymore.',
     imageUrl:
       'https://www.models-resource.com/resources/big_icons/32/31273.png',
     price: 14999
   },
   {
-    name: 'beam sword',
+    name: 'Beam Sword',
     description:
       'Ever wanted to use the force? Now you can... its just license friendly',
     imageUrl:
@@ -83,7 +83,7 @@ const products = [
     price: 23999
   },
   {
-    name: 'bullet bill',
+    name: 'Bullet Bill',
     description:
       "Your opponents won't be able to dodge you if you're as fast as a bullet!",
     imageUrl:
@@ -91,7 +91,7 @@ const products = [
     price: 32999
   },
   {
-    name: 'golden hammer',
+    name: 'Golden Hammer',
     description:
       "With a weapon like this you can even go after titans, just don't miss.",
     imageUrl:
@@ -99,41 +99,41 @@ const products = [
     price: 44999
   },
   {
-    name: 'back shield',
+    name: 'Back Shield',
     description: ` "We got ya back, but you best to watch your front" - RZA`,
     imageUrl:
       'https://www.models-resource.com/resources/big_icons/33/32445.png',
     price: 28999
   },
   {
-    name: 'home run bat',
+    name: 'Home-run Bat',
     description: "Now here's another hit, Barry bonds.",
     imageUrl:
       'https://www.models-resource.com/resources/big_icons/32/31269.png',
     price: 29999
   },
   {
-    name: 'moon',
+    name: 'Moon',
     description:
       'You have 72 hours remaining... actually make that about 7.2 seconds',
     imageUrl: 'https://www.models-resource.com/resources/big_icons/6/5414.png',
     price: 9999
   },
   {
-    name: 'shovel knight',
+    name: 'Shovel Knight',
     description: 'Just keep digging... just keep digging',
     imageUrl:
       'https://www.models-resource.com/resources/big_icons/28/27886.png',
     price: 8999
   },
   {
-    name: 'nintendog',
+    name: 'Nintendog',
     description: "Isn't he cute? He just wants all the attention!",
     imageUrl: 'https://www.models-resource.com/resources/big_icons/4/3803.png',
     price: 7999
   },
   {
-    name: 'chain chomp',
+    name: 'Chain Chomp',
     description:
       'What a good boy! He just wants to take a bite out of your enemies!',
     imageUrl:

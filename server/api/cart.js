@@ -25,7 +25,7 @@ router.get('/view', async (req, res, next) => {
         include: [{model: Product}]
       })
 
-      let itemsInCart = formatPrice(userCart.products)
+      let itemsInCart = formatPrice(userCart.products || [])
 
       res.json(itemsInCart)
     }
