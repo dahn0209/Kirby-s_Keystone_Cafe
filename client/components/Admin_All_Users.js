@@ -12,13 +12,15 @@ export class Admin_All_Users extends React.Component {
     return (
       <div>
         <h1>All Users listed below</h1>
-        {/* {users.map((user) => {
+        {users.map(user => {
           return (
             <div key={user.id}>
-              <h2>{user.firstName}</h2>
+              <h2>{`${user.firstName} ${user.lastName}`}</h2>
+              <p>{user.address}</p>
+              <p>{user.email}</p>
             </div>
           )
-        })} */}
+        })}
       </div>
     )
   }

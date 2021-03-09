@@ -24,7 +24,6 @@ class EditProduct extends React.Component {
     console.log('props on edit ', this.props)
     const {name, description, price, id} = this.props.updatedProduct
     if (productId) {
-      console.log('IDDDDD')
       this.setState({
         name,
         price,

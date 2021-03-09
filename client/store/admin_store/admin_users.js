@@ -16,7 +16,8 @@ export const setUsers = users => {
 export const adminFetchUsers = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get('/admin/users')
+      const {data} = await axios.get('/api/admin/users')
+      console.log('data ', data)
       dispatch(setUsers(data))
     } catch (error) {
       console.log(error)

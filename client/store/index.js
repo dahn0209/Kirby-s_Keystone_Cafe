@@ -8,10 +8,7 @@ import singleProductReducer from './singleProduct'
 import cartReducer from './cart'
 import checkoutReducer from './checkout'
 import adminProductsReducer from './admin_store/admin_products'
-<<<<<<< HEAD
 import adminUsersReducer from './admin_store/admin_users'
-=======
->>>>>>> master
 import usersReducer from './users'
 
 export const reducer = combineReducers({
