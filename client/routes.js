@@ -9,9 +9,9 @@ import Cart from './components/Cart'
 
 import Checkout from './components/Checkout'
 import Confirmation from './components/Confirmation'
-import Admin_All_Products from './components/Admin_All_Products'
+import AdminAllProducts from './components/AdminAllProducts'
 import EditProduct from './components/EditProductForm'
-import Admin_All_Users from './components/Admin_All_Users'
+import AdminAllUsers from './components/AdminAllUsers'
 import updateUser from './components/updateUser'
 
 /**
@@ -43,13 +43,14 @@ class Routes extends Component {
                   <Route
                     exact
                     path="/admin/products"
-                    component={Admin_All_Products}
+                    component={AdminAllProducts}
                   />
                   <Route
                     exact
-                    path="/admin/users"
-                    component={Admin_All_Users}
+                    path="api/admin/users"
+                    component={AdminAllUsers}
                   />
+
                   <Route
                     exact
                     path="/admin/products/:productId/edit"

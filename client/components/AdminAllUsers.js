@@ -2,12 +2,11 @@ import React from 'react'
 import {adminFetchUsers} from '../store/admin_store/admin_users'
 import {connect} from 'react-redux'
 
-export class Admin_All_Users extends React.Component {
+export class AdminAllUsers extends React.Component {
   componentDidMount() {
     this.props.adminFetchUsers()
   }
   render() {
-    console.log('props: ', this.props)
     const users = this.props.adminUsers
     return (
       <div>

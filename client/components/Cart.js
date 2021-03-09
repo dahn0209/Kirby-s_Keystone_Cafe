@@ -34,6 +34,14 @@ class Cart extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const {user, fetchUserCart} = this.props
+
+    if (prevProps.user.id !== user.id) {
+      fetchUserCart(user.id)
+    }
+  }
+
   clickButton(clickedActionFunc, productId) {
     const {fetchUserCart, user} = this.props
 
@@ -104,6 +112,7 @@ class Cart extends React.Component {
               <div>
                 <br />
                 <button
+                  disabled={product.quantity <= 1}
                   type="button"
                   onClick={() => this.clickButton(decrement, product.id)}
                 >
