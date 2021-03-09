@@ -112,6 +112,7 @@ class Cart extends React.Component {
               <div>
                 <br />
                 <button
+                  disabled={product.quantity <= 1}
                   type="button"
                   onClick={() => this.clickButton(decrement, product.id)}
                 >
