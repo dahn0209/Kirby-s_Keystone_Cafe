@@ -45,8 +45,8 @@ class Checkout extends React.Component {
                 return total + parseInt(curr.orderDetail.totalPrice * 100)
               }, 0) / 100
             : cart.reduce((total, curr) => {
-                return total + curr.totalPrice
-              }, 0)}
+                return total + parseInt(curr.totalPrice * 100)
+              }, 0) / 100}
         </h3>
         <button onClick={() => window.localStorage.removeItem('cart')}>
           <Link to="/confirmation">Submit Order</Link>
