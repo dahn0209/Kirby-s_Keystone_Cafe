@@ -33,7 +33,7 @@ class EditProduct extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {name, price, description, id} = this.props.updatedProduct
-    if (!prevProps.updatedProduct.id && id) {
+    if (prevProps.updatedProduct.id !== id) {
       this.setState({
         name,
         price,
@@ -48,9 +48,9 @@ class EditProduct extends React.Component {
     })
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     event.preventDefault()
-    await this.props.updateProductThunk({
+    this.props.updateProductThunk({
       ...this.props.updatedProduct,
       ...this.state
     })

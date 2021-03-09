@@ -1,8 +1,8 @@
 const {db, Product, User, Cart, OrderDetail} = require('../server/db/models')
-const users = require('../listOfUsers')
-const products = require('../listOfProducts')
-const carts = require('../listOfCarts')
-const orderDetails = require('../listOfOrderDetails')
+const users = require('./listOfUsers')
+const products = require('./listOfProducts')
+const carts = require('./listOfCarts')
+const orderDetails = require('./listOfOrderDetails')
 
 const seed = async () => {
   try {
