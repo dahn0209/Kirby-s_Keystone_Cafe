@@ -34,7 +34,6 @@ class EditProduct extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('props after update ', this.props)
     const {name, price, description, id} = this.props.updatedProduct
     if (!prevProps.updatedProduct.id && id) {
       this.setState({
@@ -112,7 +111,6 @@ class EditProduct extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('what is state: ', state)
   return {
     updatedProduct: state.singleProductReducer
   }
