@@ -5,14 +5,12 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, SingleProduct} from './components'
 import {me} from './store'
 import AllProducts from './components/AllProducts'
-
 import Cart from './components/Cart'
 
 import Checkout from './components/Checkout'
 import Admin_All_Products from './components/Admin_All_Products'
 import {Admin_All_Users} from './components/Admin_All_Users'
 import updateUser from './components/updateUser'
-
 
 /**
  * COMPONENT
@@ -50,6 +48,7 @@ class Routes extends Component {
                     path="/admin/users"
                     component={Admin_All_Users}
                   />
+                  <Route exact path="/updateUser" component={updateUser} />
                 </Switch>
               )}
 
@@ -66,7 +65,6 @@ class Routes extends Component {
         <Route exact path="/cart/:cardId" component={Cart} />
 
         <Route exact path="/checkout" component={Checkout} />
-
       </div>
     )
   }
