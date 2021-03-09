@@ -7,6 +7,7 @@ import {
   clearItemFromCartThunk,
   combineCartThunk
 } from '../store/cart'
+import {Link} from 'react-router-dom'
 
 class Cart extends React.Component {
   constructor() {
@@ -44,13 +45,13 @@ class Cart extends React.Component {
           if (productId === item.id) {
             if (clickedActionFunc.name === 'increment') {
               item.quantity += 1
-              item.totalPrice += item.price
-              item.totalPrice = parseFloat(item.totalPrice.toFixed(2))
+              item.totalPrice = parseFloat(item.totalPrice) + item.price
+              item.totalPrice = item.totalPrice.toFixed(2)
             }
             if (clickedActionFunc.name === 'decrement') {
               item.quantity -= 1
-              item.totalPrice -= item.price
-              item.totalPrice = parseFloat(item.totalPrice.toFixed(2))
+              item.totalPrice = parseFloat(item.totalPrice) - item.price
+              item.totalPrice = item.totalPrice.toFixed(2)
             }
             if (clickedActionFunc.name === 'clearFromCart') {
               item.quantity = 0
@@ -85,7 +86,9 @@ class Cart extends React.Component {
               </div>
               <br />
               <b>
-                price: {product.totalPrice || product.orderDetail.totalPrice}
+                price:{' '}
+                {(product.totalPrice * 100 / 100).toFixed(2) ||
+                  product.orderDetail.totalPrice}
               </b>
               <div>
                 <br />
@@ -112,8 +115,7 @@ class Cart extends React.Component {
           ))}
         </div>
         <div id="cart-right-panel">
-          CheckoutPage
-          {/* put total and summary details and checkout button in this panel */}
+          <Link to="/checkout">Checkout</Link>
         </div>
       </div>
     )
