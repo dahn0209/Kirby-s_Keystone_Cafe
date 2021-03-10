@@ -34,14 +34,12 @@ class Checkout extends React.Component {
         <h2>{guestOrUser()}</h2>
         <h3>Current Order:</h3>
         <table>
-          <thead>
-            <tr>
-              <th>Product Image</th>
-              <th>Product Name</th>
-              <th>Quantity</th>
-              <th>Total</th>
-            </tr>
-          </thead>
+          <tr>
+            <th>Product Image</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
           <tbody>
             {cart.map(product => (
               <tr key={product.id} id="checkoutitem">
