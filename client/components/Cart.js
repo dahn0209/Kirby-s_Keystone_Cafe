@@ -96,7 +96,7 @@ class Cart extends React.Component {
   render() {
     const {increment, decrement, clearFromCart, cart, user} = this.props
     const hasCart = !!(cart && cart.length)
-    console.log(hasCart)
+
     return (
       <div>
         {hasCart && (
