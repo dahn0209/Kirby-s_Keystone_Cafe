@@ -95,48 +95,55 @@ class Cart extends React.Component {
 
   render() {
     const {increment, decrement, clearFromCart, cart, user} = this.props
+    const hasCart = !!(cart && cart.length)
+    console.log(hasCart)
     return (
-      <div className="main-cart-wrapper">
-        <div id="cart-left-panel">
-          {cart.map(product => (
-            <div key={product.id} className="item-in-cart">
-              <b>{product.name}</b>
-              <img src={product.imageUrl} />
-              <div>
-                quantity: {product.quantity || product.orderDetail.quantity}
-              </div>
-              <br />
-              <b>
-                price: {product.totalPrice || product.orderDetail.totalPrice}
-              </b>
-              <div>
+      <div>
+        {hasCart && (
+          <div id="container">
+            <Link to="/checkout">
+              <button className="checkout">CHECKOUT</button>
+            </Link>
+          </div>
+        )}
+        <div className="main-cart-wrapper">
+          <div id="cart-left-panel">
+            {cart.map(product => (
+              <div key={product.id} className="item-in-cart">
+                <b>{product.name}</b>
+                <img src={product.imageUrl} />
+                <div>
+                  quantity: {product.quantity || product.orderDetail.quantity}
+                </div>
                 <br />
-                <button
-                  disabled={product.quantity <= 1}
-                  type="button"
-                  onClick={() => this.clickButton(decrement, product.id)}
-                >
-                  -
-                </button>
-                <button
-                  type="button"
-                  onClick={() => this.clickButton(increment, product.id)}
-                >
-                  +
-                </button>
-                <button
-                  type="button"
-                  onClick={() => this.clickButton(clearFromCart, product.id)}
-                >
-                  Remove Item
-                </button>
+                <b>
+                  price: {product.totalPrice || product.orderDetail.totalPrice}
+                </b>
+                <div>
+                  <br />
+                  <button
+                    disabled={product.quantity <= 1}
+                    type="button"
+                    onClick={() => this.clickButton(decrement, product.id)}
+                  >
+                    -
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => this.clickButton(increment, product.id)}
+                  >
+                    +
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => this.clickButton(clearFromCart, product.id)}
+                  >
+                    Remove Item
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div id="container">
-          <Link to="/checkout">Checkout</Link>
+            ))}
+          </div>
         </div>
       </div>
     )
