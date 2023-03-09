@@ -14,7 +14,7 @@ createdb kirby
 createdb kirby-test
 ```
 
-* run databases
+* Run databases
 
 ```
 npm run seed
